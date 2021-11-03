@@ -82,8 +82,12 @@ public class LWCBlockListener implements Listener {
 
     // memo: BlockData must implements Directional
     private static final List<Material> CAN_PLACE_AT_WALL_MATERIALS = Arrays.asList(
+            Material.REDSTONE_WIRE,
+            Material.REDSTONE_TORCH,
             Material.WALL_TORCH,
             Material.REDSTONE_WALL_TORCH,
+            Material.COMPARATOR,
+            Material.REPEATER,
             Material.LEVER,
             Material.ACACIA_BUTTON,
             Material.BIRCH_BUTTON,
@@ -240,8 +244,10 @@ public class LWCBlockListener implements Listener {
                 continue;
             }
 
-            if(((Directional)aroundBlock.getBlockData()).getFacing() != direction) {
-                continue;
+            if(aroundBlock.getBlockData() instanceof Directional) {
+                if(((Directional)aroundBlock.getBlockData()).getFacing() != direction) {
+                    continue;
+                }
             }
             Protection aroundProtection = lwc.findProtection(aroundBlock);
             if(aroundProtection == null) {
@@ -357,8 +363,10 @@ public class LWCBlockListener implements Listener {
                     continue;
                 }
 
-                if(((Directional)aroundBlock.getBlockData()).getFacing() != direction) {
-                    continue;
+                if(aroundBlock.getBlockData() instanceof Directional) {
+                    if(((Directional)aroundBlock.getBlockData()).getFacing() != direction) {
+                        continue;
+                    }
                 }
                 Protection aroundProtection = lwc.findProtection(aroundBlock);
                 if(aroundProtection != null) {

@@ -508,7 +508,6 @@ public class LWCPlugin extends JavaPlugin {
         pluginManager.registerEvents(new LWCEntityListener(this), this);
         pluginManager.registerEvents(new LWCBlockListener(this), this);
         pluginManager.registerEvents(new LWCServerListener(this), this);
-        pluginManager.registerEvents(new LWCBreakListener(this), this);
         if (VersionUtil.getMinorVersion() > 13) {
             pluginManager.registerEvents(new LWC114Listener(), this);
         }

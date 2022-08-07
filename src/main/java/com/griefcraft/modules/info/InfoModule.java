@@ -42,6 +42,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class InfoModule extends JavaModule {
@@ -64,7 +65,7 @@ public class InfoModule extends JavaModule {
         String type = lwc.getPlugin().getMessageParser().parseMessage(protection.typeToString().toLowerCase());
 
         lwc.sendLocale(player, "lwc.info",
-                "name", UUIDRegistry.getName(UUID.fromString(protection.getOwner())),
+                "name", UUIDRegistry.isValidUUID(protection.getOwner()) ? UUIDRegistry.getName(UUID.fromString(protection.getOwner())) : protection.getOwner(),
                 "owner", protection.getOwner(),
                 "type", type);
 
@@ -80,7 +81,9 @@ public class InfoModule extends JavaModule {
                         break;
                     }
 
-                    player.sendMessage(permission.toString());
+                    final String name = Permission.Type.PLAYER == permission.getType() ? UUIDRegistry.formatPlayerName(permission.getName(), false) : permission.getName();
+                    final String admin = Permission.Access.ADMIN == permission.getAccess() ? Optional.ofNullable(lwc.getLocaleMessage(player, "lwc.acl.permission.admin")).map(message -> message[0]).orElse("") : "";
+                    lwc.sendLocale(player, "lwc.acl.permission", "name", name, "type", permission.getType(), "admin", admin);
                     index++;
                 }
 
